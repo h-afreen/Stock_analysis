@@ -140,6 +140,7 @@
             this.comboBox_dojiPatterns.Name = "comboBox_dojiPatterns";
             this.comboBox_dojiPatterns.Size = new System.Drawing.Size(121, 33);
             this.comboBox_dojiPatterns.TabIndex = 7;
+            this.comboBox_dojiPatterns.SelectedIndexChanged += new System.EventHandler(this.comboBox_dojiPatterns_SelectedIndexChanged);
             // 
             // button_reloadData
             // 
@@ -150,6 +151,11 @@
             this.button_reloadData.TabIndex = 8;
             this.button_reloadData.Text = "Reload";
             this.button_reloadData.UseVisualStyleBackColor = true;
+            this.button_reloadData.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button_reloadData_MouseClick);
+            // 
+            // aCandlestickBindingSource
+            // 
+            this.aCandlestickBindingSource.DataSource = typeof(Stock_analysis.Model.smartCandlestick);
             // 
             // form_displayChart
             // 

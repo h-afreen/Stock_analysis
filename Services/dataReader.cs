@@ -12,9 +12,9 @@ namespace Stock_analysis.Services
     internal class dataReader
     {
 
-        public static List<aCandlestick> ReadCVSDataAsCandleSticks(string filename)
+        public static List<smartCandlestick> ReadCVSDataAsCandleSticks(string filename)
         {
-            List<aCandlestick> CandlesticksList = new List<aCandlestick>();
+            List<smartCandlestick> CandlesticksList = new List<smartCandlestick>();
             //the list aCandlesticks holds all the candlestick objects
 
             try
@@ -31,7 +31,7 @@ namespace Stock_analysis.Services
 
                         if (parsedValues.Length >= 9)
                         {
-                            aCandlestick aCandlestick = new aCandlestick(parsedValues);
+                            smartCandlestick aCandlestick = new smartCandlestick(parsedValues);
                             CandlesticksList.Add(aCandlestick);
                         }
                         else

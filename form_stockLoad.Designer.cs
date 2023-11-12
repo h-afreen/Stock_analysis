@@ -81,6 +81,7 @@
             this.button_loadStock.TabIndex = 15;
             this.button_loadStock.Text = "Load Stock Data\r\n";
             this.button_loadStock.UseVisualStyleBackColor = true;
+            this.button_loadStock.Click += new System.EventHandler(this.button_loadStock_Click);
             // 
             // openFileDialog_stockFile
             // 
