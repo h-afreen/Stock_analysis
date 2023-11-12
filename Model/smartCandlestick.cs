@@ -46,23 +46,32 @@ namespace Stock_analysis.Model
 
             decimal dojiThreshold = 0.01m;
 
-            isDoji = (bodyRange < dojiThreshold && bodyRange <= (high - low) * 0.05m) || isNeutral;
+            isDoji = (bodyRange <= dojiThreshold && bodyRange <= (high - low) * 0.05m) || isNeutral;
             isMarubozu = (bodyRange / range) >= 0.95m && topTail == 0 
-                && bottomTail == 0 && ((isBullish && close > open) || (isBearish && open > close));
-            isDragonFlyDoji = (lowerShadowRatio >= 0.98 && upperShadowRatio < 0.02 && topTail == 0);
-
+                && bottomTail == 0;
             double lowerShadowRatioThreshold = 0.02;
             double upperShadowRatioThreshold = 0.98;
-            isGravestoneDoji = upperShadowRatio >= upperShadowRatioThreshold
+
+            bool moreBullishTrend = bottomTail > (high - low) * 0.2m;
+            isDragonFlyDoji = topTail == 0 // Opening and closing prices are at the highest of the day
+                  && lowerShadowRatio >= lowerShadowRatioThreshold
+                  && upperShadowRatio < upperShadowRatioThreshold
+                  && moreBullishTrend; //works
+
+            bool bearishTrendSignal = topTail > (high - low) * 0.2m;
+            isGravestoneDoji = bottomTail == 0 // Opening and closing prices are at the lowest of the day
+                   && upperShadowRatio >= upperShadowRatioThreshold
                    && lowerShadowRatio < lowerShadowRatioThreshold
-                   && topTail == 0;
+                   && bearishTrendSignal;
+
             isHammer = bodyRange <= (high - low) * 0.2m 
                 && topTail <= (high - low) * 0.05m && bottomTail > (high - low) * 0.6m 
-                && isBullish;
+                && isBullish; //works
+
             isInvertedHammer = bodyRange <= (high - low) * 0.2m
                     && bottomTail <= (high - low) * 0.05m
                     && topTail > (high - low) * 0.6m
-                    && isBullish;
+                    && isBullish; //works
             
 
 
