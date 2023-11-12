@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Stock_analysis
 {
-    public partial class Form1 : Form
+    public partial class form_displayChart : Form
     {
-        public Form1()
+        public form_displayChart()
         {
             InitializeComponent();
         }
