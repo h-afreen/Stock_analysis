@@ -85,7 +85,7 @@ namespace Stock_analysis
             var data = stockData.FirstOrDefault();
 
 
-            //var change = Math.Round(candlesticks.Last().close - candlesticks.First().close, 2);
+            var change = Math.Round(candlesticks.Last().close - candlesticks.First().close, 2);
             //label_priceChange.ForeColor = change < 0 ? Color.Red : Color.Green;
 
             //label_priceChange.Text = change > 0 ? change.ToString() + "$ ↑" : change.ToString() + "$ ↓";

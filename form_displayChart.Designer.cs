@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.label_tickerName = new System.Windows.Forms.Label();
             this.label_dataPeriod = new System.Windows.Forms.Label();
             this.chart_dataDisplay = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -69,32 +69,32 @@
             // 
             // chart_dataDisplay
             // 
-            chartArea1.Name = "ChartArea_ohlcDisplay";
-            chartArea2.AlignWithChartArea = "ChartArea_ohlcDisplay";
-            chartArea2.Name = "ChartArea_volumeDisplay";
-            this.chart_dataDisplay.ChartAreas.Add(chartArea1);
-            this.chart_dataDisplay.ChartAreas.Add(chartArea2);
+            chartArea3.Name = "ChartArea_ohlcDisplay";
+            chartArea4.AlignWithChartArea = "ChartArea_ohlcDisplay";
+            chartArea4.Name = "ChartArea_volumeDisplay";
+            this.chart_dataDisplay.ChartAreas.Add(chartArea3);
+            this.chart_dataDisplay.ChartAreas.Add(chartArea4);
             this.chart_dataDisplay.Location = new System.Drawing.Point(104, 66);
             this.chart_dataDisplay.Name = "chart_dataDisplay";
-            series1.ChartArea = "ChartArea_ohlcDisplay";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
-            series1.CustomProperties = "PriceDownColor=Red, PriceUpColor=LawnGreen";
-            series1.EmptyPointStyle.CustomProperties = "PriceDownColor=Red, PriceUpColor=LawnGreen";
-            series1.MarkerBorderColor = System.Drawing.Color.White;
-            series1.Name = "Series_ohlcDisplay";
-            series1.XValueMember = "date";
-            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Date;
-            series1.YValueMembers = "high, low, open, close";
-            series1.YValuesPerPoint = 4;
-            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int64;
-            series2.ChartArea = "ChartArea_volumeDisplay";
-            series2.Name = "Series_volume";
-            series2.XValueMember = "date";
-            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Date;
-            series2.YValueMembers = "volume";
-            series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int64;
-            this.chart_dataDisplay.Series.Add(series1);
-            this.chart_dataDisplay.Series.Add(series2);
+            series3.ChartArea = "ChartArea_ohlcDisplay";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Candlestick;
+            series3.CustomProperties = "PriceDownColor=Red, PriceUpColor=LawnGreen";
+            series3.EmptyPointStyle.CustomProperties = "PriceDownColor=Red, PriceUpColor=LawnGreen";
+            series3.MarkerBorderColor = System.Drawing.Color.White;
+            series3.Name = "Series_ohlcDisplay";
+            series3.XValueMember = "date";
+            series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Date;
+            series3.YValueMembers = "high, low, open, close";
+            series3.YValuesPerPoint = 4;
+            series3.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int64;
+            series4.ChartArea = "ChartArea_volumeDisplay";
+            series4.Name = "Series_volume";
+            series4.XValueMember = "date";
+            series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Date;
+            series4.YValueMembers = "volume";
+            series4.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int64;
+            this.chart_dataDisplay.Series.Add(series3);
+            this.chart_dataDisplay.Series.Add(series4);
             this.chart_dataDisplay.Size = new System.Drawing.Size(1461, 648);
             this.chart_dataDisplay.TabIndex = 2;
             this.chart_dataDisplay.Text = "chart1";

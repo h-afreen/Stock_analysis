@@ -74,6 +74,7 @@
             // 
             // button_loadStock
             // 
+            this.button_loadStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_loadStock.ForeColor = System.Drawing.SystemColors.Highlight;
             this.button_loadStock.Location = new System.Drawing.Point(90, 275);
             this.button_loadStock.Name = "button_loadStock";
@@ -88,7 +89,9 @@
             this.openFileDialog_stockFile.FileName = "openFileDialog1";
             this.openFileDialog_stockFile.Filter = "All Stock files| *.csv|Daily Stocks|*-Day.csv|Weekly Stocks|*-Week.csv|Monthly St" +
     "ocks|* -Month.csv";
+            this.openFileDialog_stockFile.InitialDirectory = "C:\\..\\Stock Data";
             this.openFileDialog_stockFile.Multiselect = true;
+            this.openFileDialog_stockFile.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialog_stockFile_FileOk);
             // 
             // form_stockLoad
             // 
@@ -101,7 +104,7 @@
             this.Controls.Add(this.label_endDate);
             this.Controls.Add(this.label_beginDate);
             this.Name = "form_stockLoad";
-            this.Text = "Form1";
+            this.Text = "Stock Analysis Choose Data";
             this.ResumeLayout(false);
             this.PerformLayout();
 
