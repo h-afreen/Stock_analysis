@@ -36,6 +36,7 @@ namespace Stock_analysis.Model
             topTail = high - Math.Max(open, close);
             bottomTail = Math.Min(open, close) - low;
 
+            
             isBullish = close > open;
             isBearish = open > close;
             isNeutral = open == close;
@@ -43,12 +44,28 @@ namespace Stock_analysis.Model
             double lowerShadowRatio = (double)(close - low) / (double)(high - low);
             double upperShadowRatio = (double)(high - close) / (double)(high - low);
 
-            isDoji = bodyRange <= (high - low) * 0.05m;
-            isMarubozu = (bodyRange / range) >= 0.95m;
-            isDragonFlyDoji = lowerShadowRatio >= 0.98 && upperShadowRatio < 0.02;
-            isGravestoneDoji = open == close && close == high;
-            isHammer = bottomTail > (high - low) * 0.6m && topTail < (high - low) * 0.1m;
-            isInvertedHammer = topTail > (high - low) * 0.6m && bottomTail < (high - low) * 0.1m;
+            decimal dojiThreshold = 0.01m;
+
+            isDoji = (bodyRange < dojiThreshold && bodyRange <= (high - low) * 0.05m) || isNeutral;
+            isMarubozu = (bodyRange / range) >= 0.95m && topTail == 0 
+                && bottomTail == 0 && ((isBullish && close > open) || (isBearish && open > close));
+            isDragonFlyDoji = (lowerShadowRatio >= 0.98 && upperShadowRatio < 0.02 && topTail == 0);
+
+            double lowerShadowRatioThreshold = 0.02;
+            double upperShadowRatioThreshold = 0.98;
+            isGravestoneDoji = upperShadowRatio >= upperShadowRatioThreshold
+                   && lowerShadowRatio < lowerShadowRatioThreshold
+                   && topTail == 0;
+            isHammer = bodyRange <= (high - low) * 0.2m 
+                && topTail <= (high - low) * 0.05m && bottomTail > (high - low) * 0.6m 
+                && isBullish;
+            isInvertedHammer = bodyRange <= (high - low) * 0.2m
+                    && bottomTail <= (high - low) * 0.05m
+                    && topTail > (high - low) * 0.6m
+                    && isBullish;
+            
+
+
         }
 
     }

@@ -40,14 +40,13 @@ namespace Stock_analysis
             comboBox_dojiPatterns.DataSource = candlestickPatterns;
 
             var TempData = stockData.FirstOrDefault();
-            var period = TempData.period.ToLower() == "day" ? "Daily" : TempData.period.ToString() + "ly";
 
             label_tickerName.Text = TempData.ticker;
-            label_dataPeriod.Text = period;
-            refreshGrid();
+            label_dataPeriod.Text = TempData.period;
+            reloadCandlesticks();
         }
 
-        public void refreshGrid()
+        public void reloadCandlesticks()
         {
             if (candlesticks != null) candlesticks.Clear();
             if (stockData == null) return;
@@ -84,16 +83,11 @@ namespace Stock_analysis
 
             var data = stockData.FirstOrDefault();
 
-
-            var change = Math.Round(candlesticks.Last().close - candlesticks.First().close, 2);
-            //label_priceChange.ForeColor = change < 0 ? Color.Red : Color.Green;
-
-            //label_priceChange.Text = change > 0 ? change.ToString() + "$ ↑" : change.ToString() + "$ ↓";
         }
 
         private void button_reloadData_MouseClick(object sender, MouseEventArgs e)
         {
-            refreshGrid();
+            reloadCandlesticks();
         }
 
         private void comboBox_dojiPatterns_SelectedIndexChanged(object sender, EventArgs e)
