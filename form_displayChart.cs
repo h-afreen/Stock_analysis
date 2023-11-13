@@ -15,8 +15,8 @@ namespace Stock_analysis
     public partial class form_displayChart : Form
     {
         List<smartCandlestick> stockData = null;
-        List<smartCandlestick> tempop = null;
-        private BindingList<smartCandlestick> candlesticks { get; set; }
+        List<smartCandlestick> tempSmartCandlestickData = null;
+        private BindingList<smartCandlestick> candlesticksChosen { get; set; }
         public form_displayChart(List<smartCandlestick> data, DateTime begin, DateTime end)
         {
             InitializeComponent();
@@ -24,7 +24,7 @@ namespace Stock_analysis
             dateTimePicker_start.Value = begin;
             dateTimePicker_end.Value = end;
 
-            List<string> candlestickPatterns = new List<string>
+            List<string> candlestickDojiPatterns = new List<string>
             {
                 "",
                 "Bullish",
@@ -37,7 +37,7 @@ namespace Stock_analysis
                 "Hammer",
                 "Inverted Hammer"
             };
-            comboBox_dojiPatterns.DataSource = candlestickPatterns;
+            comboBox_dojiPatterns.DataSource = candlestickDojiPatterns;
 
             var TempData = stockData.FirstOrDefault();
 
@@ -46,19 +46,24 @@ namespace Stock_analysis
             reloadCandlesticks();
         }
 
+        /*
+         the reloadCandlesticks function makes sure that the chart is clear if values pre-exist. 
+        This function also makes sure that only the candlesticks within the chose timeframe
+        is displayed. Additionally, it also binds the data with the chart.
+        */
         public void reloadCandlesticks()
         {
-            if (candlesticks != null) candlesticks.Clear();
+            if (candlesticksChosen != null) candlesticksChosen.Clear();
             if (stockData == null) return;
             var tempdata = stockData.Where(x => x.date >= dateTimePicker_start.Value && x.date <= dateTimePicker_end.Value).ToList();
-            tempop = tempdata;
+            tempSmartCandlestickData = tempdata;
             if (tempdata == null || tempdata.Count == 0)
             {
                 MessageBox.Show("Invalid Date Range!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            candlesticks = new BindingList<smartCandlestick>();
+            candlesticksChosen = new BindingList<smartCandlestick>();
             decimal max = 0, min = 9999999;
             foreach (smartCandlestick cs in tempdata)
             {
@@ -72,24 +77,32 @@ namespace Stock_analysis
                     min = cs.low;
                 }
 
-                candlesticks.Add(cs);
+                candlesticksChosen.Add(cs);
 
             }
 
             chart_dataDisplay.ChartAreas["ChartArea_ohlcDisplay"].AxisY.Minimum = (double)min - 10;
             chart_dataDisplay.ChartAreas["ChartArea_ohlcDisplay"].AxisY.Maximum = (double)max + 10;
-            chart_dataDisplay.DataSource = candlesticks;
+            chart_dataDisplay.DataSource = candlesticksChosen;
             chart_dataDisplay.DataBind();
 
             var data = stockData.FirstOrDefault();
 
         }
 
+        /*
+         When the user clicks on the Reload Button, all the data displayed on the chart is reloaded.
+        */
         private void button_reloadData_MouseClick(object sender, MouseEventArgs e)
         {
             reloadCandlesticks();
         }
 
+        /*
+         the comboBox_dojiPatterns_SelectedIndexChanged function helps determine what kind of candlestick
+        pattern user wants to detect. Next, it makes sure to display an arrow at each candlestick that 
+        is determined to be the pattern the user wishes to detect.
+        */
         private void comboBox_dojiPatterns_SelectedIndexChanged(object sender, EventArgs e)
         {
             chart_dataDisplay.Annotations.Clear();
@@ -97,7 +110,7 @@ namespace Stock_analysis
 
             if (comboBox_dojiPatterns.SelectedValue.ToString() == "Bullish")
             {
-                foreach (smartCandlestick cs in tempop)
+                foreach (smartCandlestick cs in tempSmartCandlestickData)
                 {
                     if (cs.isBullish)
                     {
@@ -108,7 +121,7 @@ namespace Stock_analysis
 
             if (comboBox_dojiPatterns.SelectedValue.ToString() == "Bearish")
             {
-                foreach (smartCandlestick cs in tempop)
+                foreach (smartCandlestick cs in tempSmartCandlestickData)
                 {
                     if (cs.isBearish)
                     {
@@ -119,7 +132,7 @@ namespace Stock_analysis
 
             if (comboBox_dojiPatterns.SelectedValue.ToString() == "Neutral")
             {
-                foreach (smartCandlestick cs in tempop)
+                foreach (smartCandlestick cs in tempSmartCandlestickData)
                 {
                     if (cs.isNeutral)
                     {
@@ -130,7 +143,7 @@ namespace Stock_analysis
 
             if (comboBox_dojiPatterns.SelectedValue.ToString() == "Doji")
             {
-                foreach (smartCandlestick cs in tempop)
+                foreach (smartCandlestick cs in tempSmartCandlestickData)
                 {
 
                     if (cs.isDoji)
@@ -142,7 +155,7 @@ namespace Stock_analysis
 
             if (comboBox_dojiPatterns.SelectedValue.ToString() == "Marubozu")
             {
-                foreach (smartCandlestick cs in tempop)
+                foreach (smartCandlestick cs in tempSmartCandlestickData)
                 {
                     if (cs.isMarubozu)
                     {
@@ -153,7 +166,7 @@ namespace Stock_analysis
 
             if (comboBox_dojiPatterns.SelectedValue.ToString() == "DragonFly Doji")
             {
-                foreach (smartCandlestick cs in tempop)
+                foreach (smartCandlestick cs in tempSmartCandlestickData)
                 {
                     if (cs.isDragonFlyDoji)
                     {
@@ -164,7 +177,7 @@ namespace Stock_analysis
 
             if (comboBox_dojiPatterns.SelectedValue.ToString() == "Gravestone Doji")
             {
-                foreach (smartCandlestick cs in tempop)
+                foreach (smartCandlestick cs in tempSmartCandlestickData)
                 {
                     if (cs.isGravestoneDoji)
                     {
@@ -175,7 +188,7 @@ namespace Stock_analysis
 
             if (comboBox_dojiPatterns.SelectedValue.ToString() == "Hammer")
             {
-                foreach (smartCandlestick cs in tempop)
+                foreach (smartCandlestick cs in tempSmartCandlestickData)
                 {
                     if (cs.isHammer)
                     {
@@ -186,7 +199,7 @@ namespace Stock_analysis
 
             if (comboBox_dojiPatterns.SelectedValue.ToString() == "Inverted Hammer")
             {
-                foreach (smartCandlestick cs in tempop)
+                foreach (smartCandlestick cs in tempSmartCandlestickData)
                 {
                     if (cs.isInvertedHammer)
                     {
@@ -196,6 +209,10 @@ namespace Stock_analysis
             }
         }
 
+        /*
+         CreateAnnotation creates and adds an arrow notations to a chart control, it
+        specifies the size and the color. 
+        */
         public void CreateAnnotation(smartCandlestick cs)
         {
             var rectangleAnnotation = new ArrowAnnotation();

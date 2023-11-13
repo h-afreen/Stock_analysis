@@ -28,7 +28,7 @@ namespace Stock_analysis.Model
         // Constructor that calls the base class constructor
         public smartCandlestick(string[] values) : base(values)
         {
-            // Calculate smart properties based on aCandlestick properties
+            // smart properties are calculated based on aCandlestick properties
             range = high - low;
             bodyRange = Math.Abs(close - open);
             topPrice = Math.Max(open, close);
@@ -47,35 +47,43 @@ namespace Stock_analysis.Model
             decimal dojiThreshold = 0.01m;
 
             isDoji = (bodyRange <= dojiThreshold && bodyRange <= (high - low) * 0.05m) || isNeutral;
-            isMarubozu = (bodyRange / range) >= 0.95m && topTail == 0 
-                && bottomTail == 0;
-            double lowerShadowRatioThreshold = 0.02;
-            double upperShadowRatioThreshold = 0.98;
+            isMarubozu = (bodyRange / range) >= 0.95m && topTail == 0 && bottomTail == 0;
 
-            bool moreBullishTrend = bottomTail > (high - low) * 0.2m;
-            isDragonFlyDoji = topTail == 0 // Opening and closing prices are at the highest of the day
-                  && lowerShadowRatio >= lowerShadowRatioThreshold
-                  && upperShadowRatio < upperShadowRatioThreshold
-                  && moreBullishTrend; //works
+            isDragonFlyDoji = bodyRange <= (high - low) * 0.2m
+                    && topTail <= (high - low) * 0.05m
+                    && (bottomTail > (high - low) * 0.6m && isBullish || topTail > (high - low) * 0.6m && isBearish);
 
-            bool bearishTrendSignal = topTail > (high - low) * 0.2m;
-            isGravestoneDoji = bottomTail == 0 // Opening and closing prices are at the lowest of the day
-                   && upperShadowRatio >= upperShadowRatioThreshold
-                   && lowerShadowRatio < lowerShadowRatioThreshold
-                   && bearishTrendSignal;
-
-            isHammer = bodyRange <= (high - low) * 0.2m 
-                && topTail <= (high - low) * 0.05m && bottomTail > (high - low) * 0.6m 
-                && isBullish; //works
-
-            isInvertedHammer = bodyRange <= (high - low) * 0.2m
-                    && bottomTail <= (high - low) * 0.05m
+            isGravestoneDoji = bodyRange <= (high - low) * 0.2m
+                    && bottomTail <= (high - low) * 0.1m
                     && topTail > (high - low) * 0.6m
-                    && isBullish; //works
-            
+                    && (isBullish || isBearish);
 
+            decimal hammerBodyRangeThreshold = 0.2m;
+            decimal hammerUpperShadowThreshold = 0.20m;
+            decimal hammerLowerShadowThreshold = 0.50m;
+
+            isHammer = bodyRange <= (high - low) * hammerBodyRangeThreshold
+                    && topTail <= (high - low) * hammerUpperShadowThreshold
+                    && bottomTail > (high - low) * hammerLowerShadowThreshold
+                    && isBullish; // Confirming it's a green candle for bullish pattern
+
+            decimal invertedHammerBodyRangeThreshold = 0.2m;
+            decimal invertedHammerUpperShadowThreshold = 0.2m;
+            decimal invertedHammerLowerShadowThreshold = 0.5m;
+
+            isInvertedHammer = bodyRange <= (high - low) * invertedHammerBodyRangeThreshold
+                    && bottomTail <= (high - low) * invertedHammerUpperShadowThreshold
+                    && topTail > (high - low) * invertedHammerLowerShadowThreshold
+                    && isBearish; // Confirming it's a red candle for bearish pattern
 
         }
 
     }
 }
+/*
+ smartCandlestick class creates a smartCandlestick object with the following information:
+range, bodyRange,topPrice, bottomPrice, topTail,bottomTail, isBullish, isBearish, 
+isNeutral, isMarubozu, isNeutral, isDoji, isDragonFlyDoji, isGravestoneDoji,
+isHammer, and isInvertedHammer. These values help determine the candlestick patterns for each 
+candlestick
+ */
