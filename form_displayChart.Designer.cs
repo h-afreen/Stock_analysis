@@ -155,6 +155,10 @@
             this.button_reloadData.UseVisualStyleBackColor = true;
             this.button_reloadData.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button_reloadData_MouseClick);
             // 
+            // aCandlestickBindingSource
+            // 
+            this.aCandlestickBindingSource.DataSource = typeof(Stock_analysis.Model.smartCandlestick);
+            // 
             // label_patterns
             // 
             this.label_patterns.AutoSize = true;
