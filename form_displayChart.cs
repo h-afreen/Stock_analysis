@@ -161,9 +161,17 @@ namespace Stock_analysis
 
         public void CreateListOfAnnotation(List<smartCandlestick> cs, string patternName)
         {
-            CreateAnnotation(cs[0], Color.LightGreen);
-            CreateAnnotation(cs[2], Color.LightGreen);
-            CreateAnnotation(cs[1], Color.Red, Color.Red, patternName);
+            if (cs.Count == 2)
+            {
+                CreateAnnotation(cs[0], Color.LightGreen);
+                CreateAnnotation(cs[1], Color.Red, Color.Red, patternName);
+            }
+            else if (cs.Count == 3)
+            {
+                CreateAnnotation(cs[0], Color.LightGreen);
+                CreateAnnotation(cs[2], Color.LightGreen);
+                CreateAnnotation(cs[1], Color.Red, Color.Red, patternName);
+            }
         }
 
         public void stockLoadRecognizers()
@@ -172,6 +180,10 @@ namespace Stock_analysis
             lr.Add(new bullishRecognizer(1, "Bullish"));
             lr.Add(new bearishRecognizer(1, "Bearish"));
             lr.Add(new neutralRecognizer(1, "Neutral"));
+            lr.Add(new bullishEngulfingRecognizer(2, "Bullish Engulfing"));
+            lr.Add(new bearishEngulfingRecognizer(2, "Bearish Engulfing"));
+            lr.Add(new bullishHaramiRecognizer(2, "Bullish Harami"));
+            lr.Add(new bearishHaramiRecognizer(2, "Bearish Harami"));
             lr.Add(new marubozuRecognizer(1, "Marubozu"));
             lr.Add(new dojiRecognizer(1, "Doji"));
             lr.Add(new dragonflyDojiRecognizer(1, "DragonFly Doji"));

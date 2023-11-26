@@ -191,4 +191,89 @@ namespace Stock_analysis.PatternRecognizer
             return false;
         }
     }
+
+    class bullishEngulfingRecognizer : axxxRecognizer
+    {
+        public bullishEngulfingRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        {
+
+        }
+
+        public override bool recognizePattern(List<smartCandlestick> sc)
+        {
+            if (sc.Count == patternSize)
+            {
+                smartCandlestick sc1 = sc[0];
+                smartCandlestick sc2 = sc[1];
+
+                return (sc2.close > sc2.open) && (sc1.close < sc1.open) && (sc2.close > sc1.open) && (sc2.open < sc1.close);
+            }
+
+            return false;
+        }
+    }
+
+    class bearishEngulfingRecognizer : axxxRecognizer
+    {
+        public bearishEngulfingRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        {
+
+        }
+
+        public override bool recognizePattern(List<smartCandlestick> sc)
+        {
+            if (sc.Count == patternSize)
+            {
+                smartCandlestick sc1 = sc[0];
+                smartCandlestick sc2 = sc[1];
+
+                return (sc2.close < sc2.open) && (sc1.close > sc1.open) && (sc2.close < sc1.open) && (sc2.open > sc1.close);
+            }
+
+            return false;
+        }
+    }
+
+    class bullishHaramiRecognizer : axxxRecognizer
+    {
+        public bullishHaramiRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        {
+
+        }
+
+        public override bool recognizePattern(List<smartCandlestick> sc)
+        {
+            if (sc.Count == patternSize)
+            {
+                smartCandlestick sc1 = sc[0];
+                smartCandlestick sc2 = sc[1];
+
+                return (sc1.isBearish && sc2.bodyRange < sc1.bodyRange && sc2.range < sc1.range && sc1.close < sc2.open);
+            }
+
+            return false;
+        }
+    }
+
+    class bearishHaramiRecognizer : axxxRecognizer
+    {
+        public bearishHaramiRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        {
+
+        }
+
+        public override bool recognizePattern(List<smartCandlestick> sc)
+        {
+            if (sc.Count == patternSize)
+            {
+                smartCandlestick sc1 = sc[0];
+                smartCandlestick sc2 = sc[1];
+
+                return sc1.isBullish && sc2.bodyRange < sc1.bodyRange && sc2.range < sc1.range && sc1.close > sc2.open;
+            }
+
+            return false;
+        }
+    }
+
 }
