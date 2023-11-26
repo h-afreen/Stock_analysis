@@ -1,4 +1,5 @@
 ﻿using Stock_analysis.Model;
+using Stock_analysis.PatternRecognizer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +17,7 @@ namespace Stock_analysis
     {
         List<smartCandlestick> stockData = null;
         List<smartCandlestick> tempSmartCandlestickData = null;
+        List<axxxRecognizer> recognizers = null;
         private BindingList<smartCandlestick> candlesticksChosen { get; set; }
         public form_displayChart(List<smartCandlestick> data, DateTime begin, DateTime end)
         {
@@ -24,20 +26,9 @@ namespace Stock_analysis
             dateTimePicker_start.Value = begin;
             dateTimePicker_end.Value = end;
 
-            List<string> candlestickDojiPatterns = new List<string>
-            {
-                "",
-                "Bullish",
-                "Bearish",
-                "Neutral",
-                "Doji",
-                "Marubozu",
-                "DragonFly Doji",
-                "Gravestone Doji",
-                "Hammer",
-                "Inverted Hammer"
-            };
-            comboBox_dojiPatterns.DataSource = candlestickDojiPatterns;
+
+            stockLoadRecognizers();
+            stockLoadComboBox();
 
             var TempData = stockData.FirstOrDefault();
 
@@ -107,128 +98,100 @@ namespace Stock_analysis
         {
             chart_dataDisplay.Annotations.Clear();
 
-
-            if (comboBox_dojiPatterns.SelectedValue.ToString() == "Bullish")
+            var selectedRecognizer = recognizers[comboBox_dojiPatterns.SelectedIndex];
+            if (tempSmartCandlestickData == null) return;
+            for (int i = 0; i < tempSmartCandlestickData.Count; i++)
             {
-                foreach (smartCandlestick cs in tempSmartCandlestickData)
+                if (selectedRecognizer.recognizePattern(tempSmartCandlestickData[i]) && selectedRecognizer.patternSize == 1)
                 {
-                    if (cs.isBullish)
+                    CreateAnnotation(tempSmartCandlestickData[i]);
+                }
+                else if (i < tempSmartCandlestickData.Count - selectedRecognizer.patternSize + 1)
+                {
+                    List<smartCandlestick> subList = tempSmartCandlestickData.GetRange(i, selectedRecognizer.patternSize);
+                    if (selectedRecognizer.recognizePattern(subList))
                     {
-                        CreateAnnotation(cs);
+                        CreateListOfAnnotation(subList, selectedRecognizer.patternName);
                     }
                 }
             }
 
-            if (comboBox_dojiPatterns.SelectedValue.ToString() == "Bearish")
-            {
-                foreach (smartCandlestick cs in tempSmartCandlestickData)
-                {
-                    if (cs.isBearish)
-                    {
-                        CreateAnnotation(cs);
-                    }
-                }
-            }
-
-            if (comboBox_dojiPatterns.SelectedValue.ToString() == "Neutral")
-            {
-                foreach (smartCandlestick cs in tempSmartCandlestickData)
-                {
-                    if (cs.isNeutral)
-                    {
-                        CreateAnnotation(cs);
-                    }
-                }
-            }
-
-            if (comboBox_dojiPatterns.SelectedValue.ToString() == "Doji")
-            {
-                foreach (smartCandlestick cs in tempSmartCandlestickData)
-                {
-
-                    if (cs.isDoji)
-                    {
-                        CreateAnnotation(cs);
-                    }
-                }
-            }
-
-            if (comboBox_dojiPatterns.SelectedValue.ToString() == "Marubozu")
-            {
-                foreach (smartCandlestick cs in tempSmartCandlestickData)
-                {
-                    if (cs.isMarubozu)
-                    {
-                        CreateAnnotation(cs);
-                    }
-                }
-            }
-
-            if (comboBox_dojiPatterns.SelectedValue.ToString() == "DragonFly Doji")
-            {
-                foreach (smartCandlestick cs in tempSmartCandlestickData)
-                {
-                    if (cs.isDragonFlyDoji)
-                    {
-                        CreateAnnotation(cs);
-                    }
-                }
-            }
-
-            if (comboBox_dojiPatterns.SelectedValue.ToString() == "Gravestone Doji")
-            {
-                foreach (smartCandlestick cs in tempSmartCandlestickData)
-                {
-                    if (cs.isGravestoneDoji)
-                    {
-                        CreateAnnotation(cs);
-                    }
-                }
-            }
-
-            if (comboBox_dojiPatterns.SelectedValue.ToString() == "Hammer")
-            {
-                foreach (smartCandlestick cs in tempSmartCandlestickData)
-                {
-                    if (cs.isHammer)
-                    {
-                        CreateAnnotation(cs);
-                    }
-                }
-            }
-
-            if (comboBox_dojiPatterns.SelectedValue.ToString() == "Inverted Hammer")
-            {
-                foreach (smartCandlestick cs in tempSmartCandlestickData)
-                {
-                    if (cs.isInvertedHammer)
-                    {
-                        CreateAnnotation(cs);
-                    }
-                }
-            }
         }
 
         /*
          CreateAnnotation creates and adds an arrow notations to a chart control, it
         specifies the size and the color. 
         */
-        public void CreateAnnotation(smartCandlestick cs)
+        public void CreateAnnotation(smartCandlestick cs, Color color = default, Color color2 = default, string patternName = "")
         {
-            var rectangleAnnotation = new ArrowAnnotation();
-            rectangleAnnotation.AxisX = chart_dataDisplay.ChartAreas[0].AxisX;
-            rectangleAnnotation.AxisY = chart_dataDisplay.ChartAreas[0].AxisY;
-            rectangleAnnotation.X = cs.date.ToOADate();
+            var arrowAnnotation = new ArrowAnnotation();
+            arrowAnnotation.AxisX = chart_dataDisplay.ChartAreas[0].AxisX;
+            arrowAnnotation.AxisY = chart_dataDisplay.ChartAreas[0].AxisY;
+            arrowAnnotation.X = cs.date.ToOADate();
 
-            rectangleAnnotation.Y = (double)(cs.low) - 5;
-            rectangleAnnotation.LineWidth = 1;
-            rectangleAnnotation.Width = 0;
-            rectangleAnnotation.Height = 5;
-            rectangleAnnotation.ArrowSize = 2;
+            arrowAnnotation.Y = (double)(cs.low) - 5;
+            arrowAnnotation.LineWidth = 1;
+            arrowAnnotation.Width = 0;
+            arrowAnnotation.Height = 5;
+            arrowAnnotation.ArrowSize = 2;
+            arrowAnnotation.ForeColor = color;
+            arrowAnnotation.LineColor = color == default ? (cs.isBullish ? Color.Green : Color.Red) : color;
+            arrowAnnotation.BackColor = color2 == default ? default : color2;
 
-            rectangleAnnotation.LineColor = Color.Red;
+            if (color2 != default)
+            {
+                double x1 = chart_dataDisplay.Series[0].Points[0].XValue;
+                double x2 = chart_dataDisplay.Series[0].Points[1].XValue;
+                double candlestickWidth = Math.Abs(x2 - x1);
 
-            chart_dataDisplay.Annotations.Add(rectangleAnnotation);
+                var textAnnotation = new TextAnnotation();
+                textAnnotation.AxisX = chart_dataDisplay.ChartAreas[0].AxisX;
+                textAnnotation.AxisY = chart_dataDisplay.ChartAreas[0].AxisY;
+                textAnnotation.X = cs.date.ToOADate() - candlestickWidth;
+                textAnnotation.Y = (double)(cs.high) * 1.1;
+                textAnnotation.Text = patternName;
+                textAnnotation.AnchorAlignment = ContentAlignment.MiddleLeft;
+                textAnnotation.Alignment = ContentAlignment.MiddleLeft;
+                chart_dataDisplay.Annotations.Add(textAnnotation);
+            }
+
+            chart_dataDisplay.Annotations.Add(arrowAnnotation);
+
+        }
+
+        public void CreateListOfAnnotation(List<smartCandlestick> cs, string patternName)
+        {
+            CreateAnnotation(cs[0], Color.LightGreen);
+            CreateAnnotation(cs[2], Color.LightGreen);
+            CreateAnnotation(cs[1], Color.Red, Color.Red, patternName);
+        }
+
+        public void stockLoadRecognizers()
+        {
+            List<axxxRecognizer> lr = new List<axxxRecognizer>();
+            lr.Add(new bullishRecognizer(1, "Bullish"));
+            lr.Add(new bearishRecognizer(1, "Bearish"));
+            lr.Add(new neutralRecognizer(1, "Neutral"));
+            lr.Add(new marubozuRecognizer(1, "Marubozu"));
+            lr.Add(new dojiRecognizer(1, "Doji"));
+            lr.Add(new dragonflyDojiRecognizer(1, "DragonFly Doji"));
+            lr.Add(new gravestoneDojiRecognizer(1, "Gravestone Doji"));
+            lr.Add(new hammerRecognizer(1, "Hammer"));
+            lr.Add(new invertedHammerRecognizer(1, "Inverted Hammer"));
+            lr.Add(new peakRecognizer(3, "Peak"));
+            lr.Add(new valleyRecognizer(3, "Valley"));
+
+            recognizers = lr;
+        }
+        public void stockLoadComboBox()
+        {
+            List<string> patternNames = new List<string>();
+            foreach (axxxRecognizer r in recognizers)
+            {
+                patternNames.Add(r.patternName);
+            }
+
+            comboBox_dojiPatterns.DataSource = patternNames;
         }
     }
 }

@@ -58,3 +58,4 @@ aCandlestick class creates aCandlestick object that has the following informatio
 open, high, low, close, volume and date. These values correspond to the specific company's stocks
 the user chooses. 
  */
+
