@@ -17,7 +17,7 @@ namespace Stock_analysis
     {
         List<smartCandlestick> stockData = null;
         List<smartCandlestick> tempSmartCandlestickData = null;
-        List<axxxRecognizer> recognizers = null;
+        List<axxxRecognizer> dojiPatternRecognizers = null;
         private BindingList<smartCandlestick> candlesticksChosen { get; set; }
         public form_displayChart(List<smartCandlestick> data, DateTime begin, DateTime end)
         {
@@ -98,20 +98,20 @@ namespace Stock_analysis
         {
             chart_dataDisplay.Annotations.Clear();
 
-            var selectedRecognizer = recognizers[comboBox_dojiPatterns.SelectedIndex];
+            var selDojiPatternRecognizer = dojiPatternRecognizers[comboBox_dojiPatterns.SelectedIndex];
             if (tempSmartCandlestickData == null) return;
             for (int i = 0; i < tempSmartCandlestickData.Count; i++)
             {
-                if (selectedRecognizer.recognizePattern(tempSmartCandlestickData[i]) && selectedRecognizer.patternSize == 1)
+                if (selDojiPatternRecognizer.recognizePattern(tempSmartCandlestickData[i]) && selDojiPatternRecognizer.dojiPatternSize == 1)
                 {
                     CreateAnnotation(tempSmartCandlestickData[i]);
                 }
-                else if (i < tempSmartCandlestickData.Count - selectedRecognizer.patternSize + 1)
+                else if (i < tempSmartCandlestickData.Count - selDojiPatternRecognizer.dojiPatternSize + 1)
                 {
-                    List<smartCandlestick> subList = tempSmartCandlestickData.GetRange(i, selectedRecognizer.patternSize);
-                    if (selectedRecognizer.recognizePattern(subList))
+                    List<smartCandlestick> subList = tempSmartCandlestickData.GetRange(i, selDojiPatternRecognizer.dojiPatternSize);
+                    if (selDojiPatternRecognizer.recognizePattern(subList))
                     {
-                        CreateListOfAnnotation(subList, selectedRecognizer.patternName);
+                        CreateListOfAnnotation(subList, selDojiPatternRecognizer.dojiPatternName);
                     }
                 }
             }
@@ -159,18 +159,18 @@ namespace Stock_analysis
 
         }
 
-        public void CreateListOfAnnotation(List<smartCandlestick> cs, string patternName)
+        public void CreateListOfAnnotation(List<smartCandlestick> cs, string dojiPatternName)
         {
             if (cs.Count == 2)
             {
                 CreateAnnotation(cs[0], Color.LightGreen);
-                CreateAnnotation(cs[1], Color.Red, Color.Red, patternName);
+                CreateAnnotation(cs[1], Color.Red, Color.Red, dojiPatternName);
             }
             else if (cs.Count == 3)
             {
                 CreateAnnotation(cs[0], Color.LightGreen);
                 CreateAnnotation(cs[2], Color.LightGreen);
-                CreateAnnotation(cs[1], Color.Red, Color.Red, patternName);
+                CreateAnnotation(cs[1], Color.Red, Color.Red, dojiPatternName);
             }
         }
 
@@ -193,17 +193,17 @@ namespace Stock_analysis
             lr.Add(new peakRecognizer(3, "Peak"));
             lr.Add(new valleyRecognizer(3, "Valley"));
 
-            recognizers = lr;
+            dojiPatternRecognizers = lr;
         }
         public void stockLoadComboBox()
         {
-            List<string> patternNames = new List<string>();
-            foreach (axxxRecognizer r in recognizers)
+            List<string> dojiPatternNames = new List<string>();
+            foreach (axxxRecognizer r in dojiPatternRecognizers)
             {
-                patternNames.Add(r.patternName);
+                dojiPatternNames.Add(r.dojiPatternName);
             }
 
-            comboBox_dojiPatterns.DataSource = patternNames;
+            comboBox_dojiPatterns.DataSource = dojiPatternNames;
         }
     }
 }

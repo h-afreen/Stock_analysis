@@ -9,13 +9,13 @@ namespace Stock_analysis.PatternRecognizer
 {
     abstract class axxxRecognizer
     {
-        public int patternSize;
-        public string patternName;
-        public axxxRecognizer(int patternSize, string patternName)
+        public int dojiPatternSize;
+        public string dojiPatternName;
+        public axxxRecognizer(int dojiPatternSize, string dojiPatternName)
         {
-            this.patternSize = patternSize;
+            this.dojiPatternSize = dojiPatternSize;
 
-            this.patternName = patternName;
+            this.dojiPatternName = dojiPatternName;
         }
         public List<smartCandlestick> Recognize(List<smartCandlestick> smartCandlesticks)
         {
@@ -43,7 +43,7 @@ namespace Stock_analysis.PatternRecognizer
 
     class dojiRecognizer : axxxRecognizer
     {
-        public dojiRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        public dojiRecognizer(int dojiPatternSize, string dojiPatternName) : base(dojiPatternSize, dojiPatternName)
         {
 
         }
@@ -55,7 +55,7 @@ namespace Stock_analysis.PatternRecognizer
 
     class hammerRecognizer : axxxRecognizer
     {
-        public hammerRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        public hammerRecognizer(int dojiPatternSize, string dojiPatternName) : base(dojiPatternSize, dojiPatternName)
         {
 
         }
@@ -66,7 +66,7 @@ namespace Stock_analysis.PatternRecognizer
     }
     class bullishRecognizer : axxxRecognizer
     {
-        public bullishRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        public bullishRecognizer(int dojiPatternSize, string dojiPatternName) : base(dojiPatternSize, dojiPatternName)
         {
 
         }
@@ -78,7 +78,7 @@ namespace Stock_analysis.PatternRecognizer
 
     class bearishRecognizer : axxxRecognizer
     {
-        public bearishRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        public bearishRecognizer(int dojiPatternSize, string dojiPatternName) : base(dojiPatternSize, dojiPatternName)
         {
 
         }
@@ -90,7 +90,7 @@ namespace Stock_analysis.PatternRecognizer
 
     class neutralRecognizer : axxxRecognizer
     {
-        public neutralRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        public neutralRecognizer(int dojiPatternSize, string dojiPatternName) : base(dojiPatternSize, dojiPatternName)
         {
 
         }
@@ -102,7 +102,7 @@ namespace Stock_analysis.PatternRecognizer
 
     class marubozuRecognizer : axxxRecognizer
     {
-        public marubozuRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        public marubozuRecognizer(int dojiPatternSize, string dojiPatternName) : base(dojiPatternSize, dojiPatternName)
         {
 
         }
@@ -114,7 +114,7 @@ namespace Stock_analysis.PatternRecognizer
 
     class dragonflyDojiRecognizer : axxxRecognizer
     {
-        public dragonflyDojiRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        public dragonflyDojiRecognizer(int dojiPatternSize, string dojiPatternName) : base(dojiPatternSize, dojiPatternName)
         {
 
         }
@@ -126,7 +126,7 @@ namespace Stock_analysis.PatternRecognizer
 
     class gravestoneDojiRecognizer : axxxRecognizer
     {
-        public gravestoneDojiRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        public gravestoneDojiRecognizer(int dojiPatternSize, string dojiPatternName) : base(dojiPatternSize, dojiPatternName)
         {
 
         }
@@ -138,7 +138,7 @@ namespace Stock_analysis.PatternRecognizer
 
     class invertedHammerRecognizer : axxxRecognizer
     {
-        public invertedHammerRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        public invertedHammerRecognizer(int dojiPatternSize, string dojiPatternName) : base(dojiPatternSize, dojiPatternName)
         {
 
         }
@@ -150,20 +150,20 @@ namespace Stock_analysis.PatternRecognizer
 
     class peakRecognizer : axxxRecognizer
     {
-        public peakRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        public peakRecognizer(int dojiPatternSize, string dojiPatternName) : base(dojiPatternSize, dojiPatternName)
         {
 
         }
 
-        public override bool recognizePattern(List<smartCandlestick> sc)
+        public override bool recognizePattern(List<smartCandlestick> scs)
         {
-            if (sc.Count == 3)
+            if (scs.Count == 3)
             {
-                smartCandlestick sc1 = sc[0];
-                smartCandlestick sc2 = sc[1];
-                smartCandlestick sc3 = sc[2];
+                smartCandlestick scs1 = scs[0];
+                smartCandlestick scs2 = scs[1];
+                smartCandlestick scs3 = scs[2];
 
-                return (sc2.high > sc1.high) && (sc2.high > sc3.high);
+                return (scs2.high > scs1.high) && (scs2.high > scs3.high);
             }
 
             return false;
@@ -172,20 +172,20 @@ namespace Stock_analysis.PatternRecognizer
 
     class valleyRecognizer : axxxRecognizer
     {
-        public valleyRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        public valleyRecognizer(int dojiPatternSize, string dojiPatternName) : base(dojiPatternSize, dojiPatternName)
         {
 
         }
 
-        public override bool recognizePattern(List<smartCandlestick> sc)
+        public override bool recognizePattern(List<smartCandlestick> scs)
         {
-            if (sc.Count == 3)
+            if (scs.Count == 3)
             {
-                smartCandlestick sc1 = sc[0];
-                smartCandlestick sc2 = sc[1];
-                smartCandlestick sc3 = sc[2];
+                smartCandlestick scs1 = scs[0];
+                smartCandlestick scs2 = scs[1];
+                smartCandlestick scs3 = scs[2];
 
-                return (sc2.low < sc1.low) && (sc2.low < sc3.low);
+                return (scs2.low < scs1.low) && (scs2.low < scs3.low);
             }
 
             return false;
@@ -194,19 +194,19 @@ namespace Stock_analysis.PatternRecognizer
 
     class bullishEngulfingRecognizer : axxxRecognizer
     {
-        public bullishEngulfingRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        public bullishEngulfingRecognizer(int dojiPatternSize, string dojiPatternName) : base(dojiPatternSize, dojiPatternName)
         {
 
         }
 
-        public override bool recognizePattern(List<smartCandlestick> sc)
+        public override bool recognizePattern(List<smartCandlestick> scs)
         {
-            if (sc.Count == patternSize)
+            if (scs.Count == dojiPatternSize)
             {
-                smartCandlestick sc1 = sc[0];
-                smartCandlestick sc2 = sc[1];
+                smartCandlestick scs1 = scs[0];
+                smartCandlestick scs2 = scs[1];
 
-                return (sc2.close > sc2.open) && (sc1.close < sc1.open) && (sc2.close > sc1.open) && (sc2.open < sc1.close);
+                return (scs2.close > scs2.open) && (scs1.close < scs1.open) && (scs2.close > scs1.open) && (scs2.open < scs1.close);
             }
 
             return false;
@@ -215,19 +215,19 @@ namespace Stock_analysis.PatternRecognizer
 
     class bearishEngulfingRecognizer : axxxRecognizer
     {
-        public bearishEngulfingRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        public bearishEngulfingRecognizer(int dojiPatternSize, string dojiPatternName) : base(dojiPatternSize, dojiPatternName)
         {
 
         }
 
-        public override bool recognizePattern(List<smartCandlestick> sc)
+        public override bool recognizePattern(List<smartCandlestick> scs)
         {
-            if (sc.Count == patternSize)
+            if (scs.Count == dojiPatternSize)
             {
-                smartCandlestick sc1 = sc[0];
-                smartCandlestick sc2 = sc[1];
+                smartCandlestick scs1 = scs[0];
+                smartCandlestick scs2 = scs[1];
 
-                return (sc2.close < sc2.open) && (sc1.close > sc1.open) && (sc2.close < sc1.open) && (sc2.open > sc1.close);
+                return (scs2.close < scs2.open) && (scs1.close > scs1.open) && (scs2.close < scs1.open) && (scs2.open > scs1.close);
             }
 
             return false;
@@ -236,19 +236,19 @@ namespace Stock_analysis.PatternRecognizer
 
     class bullishHaramiRecognizer : axxxRecognizer
     {
-        public bullishHaramiRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        public bullishHaramiRecognizer(int dojiPatternSize, string dojiPatternName) : base(dojiPatternSize, dojiPatternName)
         {
 
         }
 
-        public override bool recognizePattern(List<smartCandlestick> sc)
+        public override bool recognizePattern(List<smartCandlestick> scs)
         {
-            if (sc.Count == patternSize)
+            if (scs.Count == dojiPatternSize)
             {
-                smartCandlestick sc1 = sc[0];
-                smartCandlestick sc2 = sc[1];
+                smartCandlestick scs1 = scs[0];
+                smartCandlestick scs2 = scs[1];
 
-                return (sc1.isBearish && sc2.bodyRange < sc1.bodyRange && sc2.range < sc1.range && sc1.close < sc2.open);
+                return ((scs2.close>scs2.open) && (scs1.close<scs1.open) && (scs2.close<scs1.open) && (scs2.open>scs1.close));
             }
 
             return false;
@@ -257,19 +257,19 @@ namespace Stock_analysis.PatternRecognizer
 
     class bearishHaramiRecognizer : axxxRecognizer
     {
-        public bearishHaramiRecognizer(int patternSize, string patternName) : base(patternSize, patternName)
+        public bearishHaramiRecognizer(int dojiPatternSize, string dojiPatternName) : base(dojiPatternSize, dojiPatternName)
         {
 
         }
 
-        public override bool recognizePattern(List<smartCandlestick> sc)
+        public override bool recognizePattern(List<smartCandlestick> scs)
         {
-            if (sc.Count == patternSize)
+            if (scs.Count == dojiPatternSize)
             {
-                smartCandlestick sc1 = sc[0];
-                smartCandlestick sc2 = sc[1];
+                smartCandlestick scs1 = scs[0];
+                smartCandlestick scs2 = scs[1];
 
-                return sc1.isBullish && sc2.bodyRange < sc1.bodyRange && sc2.range < sc1.range && sc1.close > sc2.open;
+                return ((scs2.close < scs2.open) && (scs1.close > scs1.open) && (scs2.close > scs1.open) && (scs2.open < scs1.close));
             }
 
             return false;

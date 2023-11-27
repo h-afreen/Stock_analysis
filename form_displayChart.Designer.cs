@@ -42,8 +42,8 @@
             this.dateTimePicker_end = new System.Windows.Forms.DateTimePicker();
             this.comboBox_dojiPatterns = new System.Windows.Forms.ComboBox();
             this.button_reloadData = new System.Windows.Forms.Button();
-            this.aCandlestickBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.label_patterns = new System.Windows.Forms.Label();
+            this.aCandlestickBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.chart_dataDisplay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.aCandlestickBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -96,14 +96,14 @@
             series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int64;
             this.chart_dataDisplay.Series.Add(series1);
             this.chart_dataDisplay.Series.Add(series2);
-            this.chart_dataDisplay.Size = new System.Drawing.Size(1461, 648);
+            this.chart_dataDisplay.Size = new System.Drawing.Size(2635, 1100);
             this.chart_dataDisplay.TabIndex = 2;
             this.chart_dataDisplay.Text = "chart1";
             // 
             // label_beginDate
             // 
             this.label_beginDate.AutoSize = true;
-            this.label_beginDate.Location = new System.Drawing.Point(99, 730);
+            this.label_beginDate.Location = new System.Drawing.Point(99, 1188);
             this.label_beginDate.Name = "label_beginDate";
             this.label_beginDate.Size = new System.Drawing.Size(159, 25);
             this.label_beginDate.TabIndex = 3;
@@ -112,7 +112,7 @@
             // label_endDate
             // 
             this.label_endDate.AutoSize = true;
-            this.label_endDate.Location = new System.Drawing.Point(771, 730);
+            this.label_endDate.Location = new System.Drawing.Point(1311, 1188);
             this.label_endDate.Name = "label_endDate";
             this.label_endDate.Size = new System.Drawing.Size(130, 25);
             this.label_endDate.TabIndex = 4;
@@ -120,7 +120,7 @@
             // 
             // dateTimePicker_start
             // 
-            this.dateTimePicker_start.Location = new System.Drawing.Point(104, 758);
+            this.dateTimePicker_start.Location = new System.Drawing.Point(104, 1218);
             this.dateTimePicker_start.Name = "dateTimePicker_start";
             this.dateTimePicker_start.Size = new System.Drawing.Size(394, 31);
             this.dateTimePicker_start.TabIndex = 5;
@@ -128,7 +128,7 @@
             // 
             // dateTimePicker_end
             // 
-            this.dateTimePicker_end.Location = new System.Drawing.Point(776, 758);
+            this.dateTimePicker_end.Location = new System.Drawing.Point(1316, 1214);
             this.dateTimePicker_end.Name = "dateTimePicker_end";
             this.dateTimePicker_end.Size = new System.Drawing.Size(391, 31);
             this.dateTimePicker_end.TabIndex = 6;
@@ -137,9 +137,9 @@
             // comboBox_dojiPatterns
             // 
             this.comboBox_dojiPatterns.FormattingEnabled = true;
-            this.comboBox_dojiPatterns.Location = new System.Drawing.Point(1326, 755);
+            this.comboBox_dojiPatterns.Location = new System.Drawing.Point(2469, 1216);
             this.comboBox_dojiPatterns.Name = "comboBox_dojiPatterns";
-            this.comboBox_dojiPatterns.Size = new System.Drawing.Size(121, 33);
+            this.comboBox_dojiPatterns.Size = new System.Drawing.Size(270, 33);
             this.comboBox_dojiPatterns.TabIndex = 7;
             this.comboBox_dojiPatterns.SelectedIndexChanged += new System.EventHandler(this.comboBox_dojiPatterns_SelectedIndexChanged);
             // 
@@ -147,7 +147,7 @@
             // 
             this.button_reloadData.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button_reloadData.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.button_reloadData.Location = new System.Drawing.Point(537, 815);
+            this.button_reloadData.Location = new System.Drawing.Point(952, 1282);
             this.button_reloadData.Name = "button_reloadData";
             this.button_reloadData.Size = new System.Drawing.Size(596, 44);
             this.button_reloadData.TabIndex = 8;
@@ -155,24 +155,26 @@
             this.button_reloadData.UseVisualStyleBackColor = true;
             this.button_reloadData.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button_reloadData_MouseClick);
             // 
-            // aCandlestickBindingSource
-            // 
-            this.aCandlestickBindingSource.DataSource = typeof(Stock_analysis.Model.smartCandlestick);
-            // 
             // label_patterns
             // 
             this.label_patterns.AutoSize = true;
-            this.label_patterns.Location = new System.Drawing.Point(1321, 730);
+            this.label_patterns.Location = new System.Drawing.Point(2464, 1188);
             this.label_patterns.Name = "label_patterns";
             this.label_patterns.Size = new System.Drawing.Size(98, 25);
             this.label_patterns.TabIndex = 9;
             this.label_patterns.Text = "Patterns:";
             // 
+            // aCandlestickBindingSource
+            // 
+            this.aCandlestickBindingSource.DataSource = typeof(Stock_analysis.Model.smartCandlestick);
+            // 
             // form_displayChart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1674, 871);
+            this.AutoScroll = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(2841, 1363);
             this.Controls.Add(this.label_patterns);
             this.Controls.Add(this.button_reloadData);
             this.Controls.Add(this.comboBox_dojiPatterns);
