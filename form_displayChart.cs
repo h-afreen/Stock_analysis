@@ -91,8 +91,9 @@ namespace Stock_analysis
 
         /*
          the comboBox_dojiPatterns_SelectedIndexChanged function helps determine what kind of candlestick
-        pattern user wants to detect. Next, it makes sure to display an arrow at each candlestick that 
-        is determined to be the pattern the user wishes to detect.
+        pattern user wants to detect. Next, it makes sure to display an arrow or arrows (depending on  
+        whether the pattern is multi-candlestick or single candlestick) at each candlestick that is
+        determined to be the pattern the user wishes to detect.
         */
         private void comboBox_dojiPatterns_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -102,14 +103,14 @@ namespace Stock_analysis
             if (tempSmartCandlestickData == null) return;
             for (int i = 0; i < tempSmartCandlestickData.Count; i++)
             {
-                if (selDojiPatternRecognizer.recognizePattern(tempSmartCandlestickData[i]) && selDojiPatternRecognizer.dojiPatternSize == 1)
+                if (selDojiPatternRecognizer.recognizeDojiPattern(tempSmartCandlestickData[i]) && selDojiPatternRecognizer.dojiPatternSize == 1)
                 {
                     CreateAnnotation(tempSmartCandlestickData[i]);
                 }
                 else if (i < tempSmartCandlestickData.Count - selDojiPatternRecognizer.dojiPatternSize + 1)
                 {
                     List<smartCandlestick> subList = tempSmartCandlestickData.GetRange(i, selDojiPatternRecognizer.dojiPatternSize);
-                    if (selDojiPatternRecognizer.recognizePattern(subList))
+                    if (selDojiPatternRecognizer.recognizeDojiPattern(subList))
                     {
                         CreateListOfAnnotation(subList, selDojiPatternRecognizer.dojiPatternName);
                     }
@@ -159,6 +160,10 @@ namespace Stock_analysis
 
         }
 
+        /*
+         CreateListOfAnnotation determines whether the candlestick patterns are multi-candlestick patterns.
+        If they are multi-candlestick patterns it deploys annotations accordingly.
+        */
         public void CreateListOfAnnotation(List<smartCandlestick> cs, string dojiPatternName)
         {
             if (cs.Count == 2)
@@ -174,27 +179,36 @@ namespace Stock_analysis
             }
         }
 
+        /*
+         stockLoadRecognizers creates new dojiPatternRecognizer objects with parameters such as dojiPatternSize and dojiPatternName
+        for each type of doji candlestick pattern.
+        */
         public void stockLoadRecognizers()
         {
-            List<axxxRecognizer> lr = new List<axxxRecognizer>();
-            lr.Add(new bullishRecognizer(1, "Bullish"));
-            lr.Add(new bearishRecognizer(1, "Bearish"));
-            lr.Add(new neutralRecognizer(1, "Neutral"));
-            lr.Add(new bullishEngulfingRecognizer(2, "Bullish Engulfing"));
-            lr.Add(new bearishEngulfingRecognizer(2, "Bearish Engulfing"));
-            lr.Add(new bullishHaramiRecognizer(2, "Bullish Harami"));
-            lr.Add(new bearishHaramiRecognizer(2, "Bearish Harami"));
-            lr.Add(new marubozuRecognizer(1, "Marubozu"));
-            lr.Add(new dojiRecognizer(1, "Doji"));
-            lr.Add(new dragonflyDojiRecognizer(1, "DragonFly Doji"));
-            lr.Add(new gravestoneDojiRecognizer(1, "Gravestone Doji"));
-            lr.Add(new hammerRecognizer(1, "Hammer"));
-            lr.Add(new invertedHammerRecognizer(1, "Inverted Hammer"));
-            lr.Add(new peakRecognizer(3, "Peak"));
-            lr.Add(new valleyRecognizer(3, "Valley"));
+            List<axxxRecognizer> patternRecognizersList = new List<axxxRecognizer>();
+            patternRecognizersList.Add(new bullishRecognizer(1, "Bullish"));
+            patternRecognizersList.Add(new bearishRecognizer(1, "Bearish"));
+            patternRecognizersList.Add(new neutralRecognizer(1, "Neutral"));
+            patternRecognizersList.Add(new bullishEngulfingRecognizer(2, "Bullish Engulfing"));
+            patternRecognizersList.Add(new bearishEngulfingRecognizer(2, "Bearish Engulfing"));
+            patternRecognizersList.Add(new bullishHaramiRecognizer(2, "Bullish Harami"));
+            patternRecognizersList.Add(new bearishHaramiRecognizer(2, "Bearish Harami"));
+            patternRecognizersList.Add(new marubozuRecognizer(1, "Marubozu"));
+            patternRecognizersList.Add(new dojiRecognizer(1, "Doji"));
+            patternRecognizersList.Add(new dragonflyDojiRecognizer(1, "DragonFly Doji"));
+            patternRecognizersList.Add(new gravestoneDojiRecognizer(1, "Gravestone Doji"));
+            patternRecognizersList.Add(new hammerRecognizer(1, "Hammer"));
+            patternRecognizersList.Add(new invertedHammerRecognizer(1, "Inverted Hammer"));
+            patternRecognizersList.Add(new peakRecognizer(3, "Peak"));
+            patternRecognizersList.Add(new valleyRecognizer(3, "Valley"));
 
-            dojiPatternRecognizers = lr;
+            dojiPatternRecognizers = patternRecognizersList;
         }
+
+        /*
+        stockLoadComboBox inserts the doji Pattern names into the comboBox so that the drop-down options are 
+        in the comboBox_dojiPatterns is populated with options for the user to choose from.
+        */
         public void stockLoadComboBox()
         {
             List<string> dojiPatternNames = new List<string>();
